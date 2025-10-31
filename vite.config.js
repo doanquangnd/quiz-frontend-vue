@@ -16,12 +16,12 @@ export default defineConfig({
     cors: true,
     proxy: {
       '/api': {
-        target: 'http://java-quiz.test',
+        target: process.env.VITE_PROXY_TARGET || process.env.VITE_API_BASE_URL || 'http://java-quiz.test',
         changeOrigin: true,
         secure: false,
       },
       '/uploads': {
-        target: 'http://java-quiz.test',
+        target: process.env.VITE_PROXY_TARGET || process.env.VITE_API_BASE_URL || 'http://java-quiz.test',
         changeOrigin: true,
         secure: false,
       },
