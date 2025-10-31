@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="container">
-      <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
+      <div class="row mt-lg-n12 mt-md-n11 mt-n10 justify-content-center">
         <div class="mx-auto col-xl-4 col-lg-5 col-md-7">
           <div class="card z-index-0">
             <div class="pt-4 text-center card-header">
@@ -280,10 +280,21 @@ import { useAppStore } from '@/stores/app.js'
 import { useAuthStore } from '@/stores/auth.js'
 import { useToastStore } from '@/stores/toast.js'
 import { http } from '@/api/http-client.js'
-import { useDarkMode } from "@/composables/useDarkMode";
+import { useDarkMode } from "@/composables/useDarkMode"
+import { useSeo, SEO_CONFIGS } from '@/composables/useSeo.js'
+import { SEO_CONFIGS_EN } from '@/composables/useSeo.en.js'
+import { useTranslation } from '@/composables/useTranslation';
 
 // Router & Stores
 const router = useRouter()
+
+// SEO Setup - Auto-detect language
+const { locale } = useTranslation()
+const init_seo = () => {
+  const configs = locale.value === 'en' ? SEO_CONFIGS_EN : SEO_CONFIGS
+  useSeo(configs.signup)
+}
+init_seo()
 const app_store = useAppStore()
 const auth_store = useAuthStore()
 const toast = useToastStore()

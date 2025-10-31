@@ -116,6 +116,20 @@ import { ref, onMounted } from 'vue';
 import { http } from '@/api/http-client.js';
 import AppLayout from "@/layouts/AppLayout.vue";
 import Leaderboard from "@/components/Gamification/Leaderboard.vue";
+import { useSeo, SEO_CONFIGS } from '@/composables/useSeo.js'
+import { SEO_CONFIGS_EN } from '@/composables/useSeo.en.js'
+import { useTranslation } from '@/composables/useTranslation'
+
+// SEO Setup
+const { locale } = useTranslation()
+const init_seo = () => {
+  const configs = locale.value === 'en' ? SEO_CONFIGS_EN : SEO_CONFIGS
+  useSeo({
+    ...configs.leaderboard,
+    robots: 'noindex, nofollow',
+  })
+}
+init_seo()
 
 // State
 const currentUserId = ref(null);

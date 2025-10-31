@@ -34,11 +34,16 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { useTranslation } from '@/composables/useTranslation'
+import { useSeo, SEO_CONFIGS } from '@/composables/useSeo.js'
+import { SEO_CONFIGS_EN } from '@/composables/useSeo.en.js'
 
 // Composables
+const route = useRoute()
 const { t, locale, setLocale } = useTranslation()
+const { update_seo } = useSeo()
 
 // State
 const showMenu = ref(false)
@@ -48,6 +53,25 @@ const languages = {
     'vi': 'Tiếng Việt',
     'en': 'English',
     'ja': '日本語'
+}
+
+// Route to SEO config mapping
+const get_seo_config_for_route = (lang, route_name) => {
+    const configs = lang === 'en' ? SEO_CONFIGS_EN : SEO_CONFIGS
+    
+    // Map route names to SEO configs
+    const route_map = {
+        'signin': configs.signin,
+        'signup': configs.signup,
+        'dashboard': configs.dashboard,
+        'documents': configs.documents,
+        'documents-index': configs.documents,
+        'leaderboard': configs.leaderboard,
+        'achievements': configs.achievements,
+        'profile': configs.profile,
+    }
+    
+    return route_map[route_name] || configs.home
 }
 
 // Methods
@@ -72,6 +96,12 @@ const switchLanguage = (newLocale) => {
     // Change language
     setLocale(newLocale)
     
+    // Update SEO for current page
+    const seo_config = get_seo_config_for_route(newLocale, route.name)
+    if (seo_config) {
+        update_seo(seo_config)
+    }
+    
     // Close menu
     showMenu.value = false
 }
@@ -79,6 +109,14 @@ const switchLanguage = (newLocale) => {
 // Computed
 const flagIcon = computed(() => {
     return getFlagIcon(locale.value)
+})
+
+// Watch language changes from other sources
+watch(() => locale.value, (new_lang) => {
+    const seo_config = get_seo_config_for_route(new_lang, route.name)
+    if (seo_config) {
+        update_seo(seo_config)
+    }
 })
 
 // Close dropdown when clicking outside

@@ -358,10 +358,24 @@ import { ProfileService } from '@/services/profile-service.js'
 import { useAuthStore } from '@/stores/auth.js'
 import { useToastStore } from '@/stores/toast.js'
 import AppLayout from '@/layouts/AppLayout.vue'
+import { useSeo, SEO_CONFIGS } from '@/composables/useSeo.js'
+import { SEO_CONFIGS_EN } from '@/composables/useSeo.en.js'
+import { useTranslation } from '@/composables/useTranslation'
 
 // Stores
 const auth_store = useAuthStore()
 const toast = useToastStore()
+const { locale } = useTranslation()
+
+// SEO Setup
+const init_seo = () => {
+  const configs = locale.value === 'en' ? SEO_CONFIGS_EN : SEO_CONFIGS
+  useSeo({
+    ...configs.profile,
+    robots: 'noindex, nofollow',
+  })
+}
+init_seo()
 
 // State
 const stats = ref(null)

@@ -312,10 +312,24 @@ import PageTitle from '@/components/PageTitle.vue';
 import { DashboardService } from '@/services/dashboard-service.js'
 import { useToastStore } from '@/stores/toast.js'
 import { useAuthStore } from '@/stores/auth.js'
+import { useSeo, SEO_CONFIGS } from '@/composables/useSeo.js'
+import { SEO_CONFIGS_EN } from '@/composables/useSeo.en.js'
+import { useTranslation } from '@/composables/useTranslation'
 
 // Stores
 const toast = useToastStore()
 const auth_store = useAuthStore()
+const { locale } = useTranslation()
+
+// SEO Setup - Dashboard requires login, use noindex
+const init_seo = () => {
+  const configs = locale.value === 'en' ? SEO_CONFIGS_EN : SEO_CONFIGS
+  useSeo({
+    ...configs.dashboard,
+    robots: 'noindex, nofollow', // Dashboard cần login, không index
+  })
+}
+init_seo()
 
 // State
 const loading = ref(true)

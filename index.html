@@ -1,24 +1,134 @@
 <!doctype html>
 <html lang="vi">
   <head>
+    <!-- Essential Meta Tags -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Java Quiz</title>
-    <link rel="preconnect" href="https://fonts.bunny.net">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     
+    <!-- Primary Meta Tags -->
+    <title>Java Quiz Mastery - Học Chứng Chỉ Java hiệu quả</title>
+    <meta name="title" content="Java Quiz Mastery - Học Chứng Chỉ Java hiệu quả" />
+    <meta name="description" content="Nền tảng học Chứng Chỉ Java với hơn 1000+ câu hỏi thực hành, theo dõi tiến độ chi tiết, và gamification để tăng động lực học tập." />
+    <meta name="keywords" content="java quiz, java bronze, java silver, java gold, học java, lập trình java, chứng chỉ java, java certification, java exam, java practice, học lập trình, java online, java test" />
+    <meta name="author" content="Java Quiz Mastery Team" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="Vietnamese" />
+    <meta name="revisit-after" content="7 days" />
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#82d616" />
+    <meta name="msapplication-navbutton-color" content="#82d616" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#82d616" />
+    
+    <!-- Mobile App Capable -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Java Quiz" />
+    
+    <!-- Canonical URL (will be updated dynamically) -->
+    <link rel="canonical" href="https://java-quiz-mastery.vercel.app/" />
+    
+    <!-- Alternate Language URLs (hreflang) -->
+    <link rel="alternate" hreflang="vi" href="https://java-quiz-mastery.vercel.app/" />
+    <link rel="alternate" hreflang="en" href="https://java-quiz-mastery.vercel.app/?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://java-quiz-mastery.vercel.app/" />
+    
+    <!-- Open Graph / Facebook Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://java-quiz-mastery.vercel.app/" />
+    <meta property="og:title" content="Java Quiz Mastery - Học Chứng Chỉ Java hiệu quả" />
+    <meta property="og:description" content="Nền tảng học Chứng Chỉ Java với hơn 1000+ câu hỏi thực hành, theo dõi tiến độ chi tiết, và gamification để tăng động lực học tập." />
+    <meta property="og:image" content="https://java-quiz-mastery.vercel.app/images/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Java Quiz Mastery" />
+    <meta property="og:locale" content="vi_VN" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://java-quiz-mastery.vercel.app/" />
+    <meta name="twitter:title" content="Java Quiz Mastery - Học Chứng Chỉ Java hiệu quả" />
+    <meta name="twitter:description" content="Nền tảng học Chứng Chỉ Java với hơn 1000+ câu hỏi thực hành, theo dõi tiến độ chi tiết, và gamification để tăng động lực học tập." />
+    <meta name="twitter:image" content="https://java-quiz-mastery.vercel.app/images/og-image.jpg" />
+    <meta name="twitter:site" content="@javaquizmastery" />
+    <meta name="twitter:creator" content="@javaquizmastery" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- DNS Prefetch & Preconnect -->
+    <link rel="dns-prefetch" href="https://fonts.bunny.net" />
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+    <link rel="preconnect" href="https://fonts.bunny.net" crossorigin />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+    
+    <!-- Fonts -->
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
 
     <!-- Bootstrap Icons -->
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet" />
+    
     <!-- Font Awesome -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js" defer></script>
+    
+    <!-- Structured Data - WebSite -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Java Quiz Mastery",
+      "url": "https://java-quiz-mastery.vercel.app",
+      "description": "Nền tảng học Chứng Chỉ Java với hơn 1000+ câu hỏi thực hành",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://java-quiz-mastery.vercel.app/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    
+    <!-- Structured Data - Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Java Quiz Mastery",
+      "url": "https://java-quiz-mastery.vercel.app",
+      "logo": "https://java-quiz-mastery.vercel.app/favicon.png",
+      "description": "Nền tảng học Chứng Chỉ Java trực tuyến hàng đầu",
+      "sameAs": [
+        "https://twitter.com/javaquizmastery",
+        "https://facebook.com/javaquizmastery"
+      ]
+    }
+    </script>
+    
+    <!-- Structured Data - EducationalOrganization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "EducationalOrganization",
+      "name": "Java Quiz Mastery",
+      "url": "https://java-quiz-mastery.vercel.app",
+      "description": "Nền tảng học Chứng Chỉ Java với hơn 1000+ câu hỏi thực hành",
+      "educationalCredentialAwarded": "Chứng Chỉ Java Certification Preparation"
+    }
+    </script>
   </head>
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
   </body>
-  </html>
+</html>
 
 

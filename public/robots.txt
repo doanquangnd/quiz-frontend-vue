@@ -1,0 +1,69 @@
+# robots.txt for Java Quiz Mastery
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Disallow admin and private routes
+Disallow: /admin
+Disallow: /api/
+
+# Disallow dynamic quiz pages (to prevent duplicate content)
+Disallow: /quiz/*
+Disallow: /exam/*
+
+# Allow public pages ONLY
+Allow: /
+Allow: /signin
+Allow: /signup
+
+# Disallow authenticated pages (requires login)
+# Bots cannot login, so these pages should not be crawled
+Disallow: /dashboard
+Disallow: /documents
+Disallow: /leaderboard
+Disallow: /achievements
+Disallow: /profile
+Disallow: /settings
+
+# Crawl delay (optional, 1 second between requests)
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://java-quiz-mastery.vercel.app/sitemap.xml
+
+# Specific rules for major search engines
+
+# Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0.5
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Yandex
+User-agent: Yandex
+Allow: /
+Crawl-delay: 1
+
+# Baidu (Chinese search engine)
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 2
+
+# Block bad bots
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+

@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.js'
+import AOS from 'aos'
 
 const routes = [
   // Public Routes
@@ -191,6 +192,14 @@ router.beforeEach(async (to, from, next) => {
 
   // Cho phép điều hướng
   next()
+})
+
+// Initialize AOS after navigation for scroll animations
+router.afterEach(() => {
+  // Wait for DOM to update
+  setTimeout(() => {
+    AOS.refresh()
+  }, 100)
 })
 
 export default router

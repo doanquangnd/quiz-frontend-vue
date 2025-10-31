@@ -125,6 +125,8 @@ import { useToast } from "@/composables/useToast.js"
 import Logo from "@/components/Logo.vue"
 import IconTextDecoration from "@/components/IconTextDecoration.vue"
 import LanguageSwitcher from "@/components/LanguageSwitcher.vue"
+import { highlightCodeBlocks } from '@/utils/highlight.js'
+import AOS from 'aos'
 
 // Composables
 const router = useRouter()
@@ -264,15 +266,11 @@ const initParticles = () => {
 }
 
 const initAOS = () => {
-    if (typeof AOS !== "undefined") {
-        AOS.init()
-    }
+    AOS.refresh()
 }
 
-const initHighlight = () => {
-    if (typeof hljs !== "undefined") {
-        hljs.highlightAll()
-    }
+const initHighlight = async () => {
+    await highlightCodeBlocks()
 }
 
 // Lifecycle hooks

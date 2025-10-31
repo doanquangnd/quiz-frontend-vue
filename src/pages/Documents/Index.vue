@@ -50,12 +50,26 @@ import AppLayout from '@/layouts/AppLayout.vue'
 import DocumentCard from '@/components/Cards/DocumentCard.vue'
 import { DocumentService } from '@/services/document-service.js'
 import { useToastStore } from '@/stores/toast.js'
+import { useSeo, SEO_CONFIGS } from '@/composables/useSeo.js'
+import { SEO_CONFIGS_EN } from '@/composables/useSeo.en.js'
+import { useTranslation } from '@/composables/useTranslation'
 
 // State
 const documents = ref([])
 const loading = ref(true)
 const error = ref(null)
 const toast = useToastStore()
+const { locale } = useTranslation()
+
+// SEO Setup - Documents require login, use noindex
+const init_seo = () => {
+  const configs = locale.value === 'en' ? SEO_CONFIGS_EN : SEO_CONFIGS
+  useSeo({
+    ...configs.documents,
+    robots: 'noindex, nofollow',
+  })
+}
+init_seo()
 
 // Fetch documents
 const fetch_documents = async () => {

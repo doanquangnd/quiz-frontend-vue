@@ -13,7 +13,7 @@
     
       <main class="mt-0 main-content main-content-bg">
         <section>
-          <div class="page-header min-vh-75">
+          <div class="page-header pb-3 min-vh-75">
             <div class="container">
               <div class="row">
                 <div class="mx-auto col-xl-4 col-lg-5 col-md-6 d-flex flex-column">
@@ -144,7 +144,10 @@ import { useAppStore } from '@/stores/app.js'
 import { useAuthStore } from '@/stores/auth.js'
 import { useToastStore } from '@/stores/toast.js'
 import { http } from '@/api/http-client.js'
-import { useDarkMode } from "@/composables/useDarkMode";
+import { useDarkMode } from "@/composables/useDarkMode"
+import { useSeo, SEO_CONFIGS } from '@/composables/useSeo.js'
+import { SEO_CONFIGS_EN } from '@/composables/useSeo.en.js'
+import { useTranslation } from '@/composables/useTranslation';
 // Router & Stores
 const router = useRouter()
 const route = useRoute()
@@ -152,6 +155,14 @@ const app_store = useAppStore()
 const auth_store = useAuthStore()
 const toast = useToastStore()
 const { initializeDarkMode } = useDarkMode()
+const { locale } = useTranslation()
+
+// SEO Setup - Auto-detect language and apply appropriate SEO
+const init_seo = () => {
+  const configs = locale.value === 'en' ? SEO_CONFIGS_EN : SEO_CONFIGS
+  useSeo(configs.signin)
+}
+init_seo()
 // State
 const processing = ref(false)
 const errors = ref({})
@@ -257,6 +268,6 @@ onBeforeUnmount(() => {
 </script>
   <style>
     .dark .page-header {
-      background-color: #16213e;
+      background-color: #90a2d1;
     }
   </style>

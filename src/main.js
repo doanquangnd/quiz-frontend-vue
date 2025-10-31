@@ -3,6 +3,10 @@ import { createPinia } from 'pinia'
 import router from './router/index.js'
 import App from './App.vue'
 
+// Import AOS (Animate On Scroll)
+import AOS from 'aos'
+import 'aos/dist/aos.css'
+
 // Import Soft UI Dashboard Styles
 import "./styles/nucleo-icons.css";
 import "./styles/nucleo-svg.css";
@@ -38,6 +42,14 @@ app.use(i18nPlugin, {
   locale: localStorage.getItem('locale') || 'vi',
   messages: { en, ja, vi },
   availableLocales: ['en', 'ja', 'vi'],
+})
+
+// Initialize AOS globally
+AOS.init({
+  duration: 800,
+  easing: 'ease-in-out',
+  once: true,
+  mirror: false,
 })
 
 app.mount('#app')
