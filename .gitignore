@@ -1,5 +1,4 @@
 /node_modules
-/src/styles/scss/*
 .env
 .env.local
 .env.*.local

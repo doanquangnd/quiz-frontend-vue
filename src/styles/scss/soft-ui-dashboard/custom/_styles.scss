@@ -1,0 +1,429 @@
+// =========================================================
+// * Custom Font & Typography Improvements
+// =========================================================
+//
+// Cải thiện font family hỗ trợ tiếng Nhật và Việt
+// Tăng font size cho dễ đọc hơn
+// Cải thiện độ tương phản màu sắc
+//
+
+// =========================================================
+// * Font Family - Hỗ trợ tiếng Nhật và Việt
+// =========================================================
+
+// Font stack tối ưu cho tiếng Nhật và tiếng Việt
+$font-family-japanese-vietnamese: 
+  "Noto Sans JP",           // Google Font - Hỗ trợ tiếng Nhật tốt
+  "Noto Sans",              // Google Font - Hỗ trợ Unicode tốt
+  "Hiragino Sans",          // macOS Japanese font
+  "Yu Gothic",              // Windows Japanese font
+  "Meiryo",                 // Windows Japanese font
+  "Hiragino Kaku Gothic ProN", // macOS Japanese font
+  "Hiragino Mincho ProN",   // macOS Japanese serif
+  "Source Han Sans JP",     // Adobe font - Hỗ trợ tiếng Nhật
+  "Roboto",                 // Google Font - Hỗ trợ tiếng Việt
+  "Segoe UI",               // Windows font
+  "Apple Color Emoji",      // Emoji support
+  "Segoe UI Emoji",         // Windows emoji
+  "Segoe UI Symbol",        // Windows symbol
+  -apple-system,            // Apple system font
+  BlinkMacSystemFont,       // macOS system font
+  "Helvetica Neue",         // Fallback
+  Arial,                    // Fallback
+  sans-serif !default;
+
+// Override font family
+$font-family-sans-serif: $font-family-japanese-vietnamese !default;
+
+// =========================================================
+// * Font Size Improvements
+// =========================================================
+
+// Tăng base font size từ 16px lên 18px cho dễ đọc hơn
+$font-size-base: 1.125rem !default; // 18px instead of 16px
+
+// Tăng các font size khác tương ứng
+$font-size-sm: $font-size-base * 0.9 !default;   // 16.2px instead of 14px
+$font-size-xs: $font-size-base * 0.8 !default;   // 14.4px instead of 12px
+$font-size-lg: $font-size-base * 1.2 !default;   // 21.6px instead of 18px
+$font-size-xl: $font-size-base * 1.4 !default;   // 25.2px instead of 20px
+
+// Tăng heading sizes
+$h1-font-size: $font-size-base * 2.5 !default;   // 45px instead of 48px
+$h2-font-size: $font-size-base * 2 !default;     // 36px instead of 36px
+$h3-font-size: $font-size-base * 1.75 !default;  // 31.5px instead of 30px
+$h4-font-size: $font-size-base * 1.5 !default;   // 27px instead of 24px
+$h5-font-size: $font-size-base * 1.25 !default;  // 22.5px instead of 20px
+$h6-font-size: $font-size-base * 1.1 !default;   // 19.8px instead of 16px
+
+// =========================================================
+// * Color Contrast Improvements
+// =========================================================
+
+// Cải thiện màu text cho độ tương phản tốt hơn
+$text-dark: #2d3748 !default;           // Darker text
+$text-muted: #4a5568 !default;          // Better contrast for muted text
+$text-secondary: #4a5568 !default;      // Better contrast
+
+// Cải thiện màu nền cho các element
+$light-bg: #f7fafc !default;            // Lighter background
+$card-bg: #ffffff !default;             // Pure white for cards
+$border-light: #e2e8f0 !default;        // Better border color
+
+// =========================================================
+// * Custom CSS Classes
+// =========================================================
+
+// Import Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Noto+Sans:wght@300;400;500;700;900&display=swap');
+
+// Apply font family globally
+html, body {
+  font-family: $font-family-japanese-vietnamese;
+  font-size: $font-size-base;
+  line-height: 1.6; // Better line height for readability
+  color: $text-dark;
+}
+
+// =========================================================
+// * Quiz Page Specific Improvements
+// =========================================================
+
+// Quiz content improvements
+.quiz-content {
+  font-size: $font-size-lg; // 21.6px for better readability
+  
+  .question-text {
+    font-size: $font-size-xl; // 25.2px for questions
+    line-height: 1.5;
+    color: $text-dark;
+    font-weight: 500;
+  }
+  
+  .choice-option {
+    font-size: $font-size-base; // 18px for choices
+    line-height: 1.6;
+    padding: 1rem 1.25rem; // More padding for better touch targets
+    
+    &:hover {
+      background-color: rgba(99, 179, 237, 0.08); // Better hover state
+    }
+    
+    &.selected {
+      background-color: rgba(99, 179, 237, 0.12); // Better selected state
+      border-color: #63b3ed;
+      color: $text-dark;
+    }
+  }
+  
+  .choice-letter {
+    font-size: $font-size-lg; // 21.6px for choice letters
+    font-weight: 700;
+    width: 2.5rem; // Larger touch target
+    height: 2.5rem;
+  }
+}
+
+// Modal improvements
+.modal-content {
+  .modal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    
+    .modal-title {
+      font-size: $h3-font-size; // 31.5px
+      font-weight: 700;
+    }
+  }
+  
+  .modal-body {
+    font-size: $font-size-base; // 18px
+    line-height: 1.6;
+    
+    .progress-info {
+      background-color: #fef3c7; // Better yellow background
+      border: 1px solid #f59e0b; // Better border
+      color: #92400e; // Better text color for contrast
+      
+      .progress-label {
+        font-weight: 600;
+        color: #92400e;
+      }
+      
+      .progress-value {
+        font-weight: 700;
+        color: #92400e;
+      }
+    }
+    
+    .alert-info {
+      background-color: #dbeafe; // Better blue background
+      border: 1px solid #3b82f6;
+      color: #1e40af; // Better text color
+    }
+  }
+}
+
+// Button improvements
+.btn {
+  font-size: $font-size-base; // 18px
+  font-weight: 500;
+  padding: 0.75rem 1.5rem; // Better padding
+  line-height: 1.4;
+  
+  &.btn-lg {
+    font-size: $font-size-lg; // 21.6px
+    padding: 1rem 2rem;
+  }
+  
+  &.btn-sm {
+    font-size: $font-size-sm; // 16.2px
+  }
+}
+
+// Card improvements
+.card {
+  border: 1px solid $border-light;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  
+  .card-body {
+    color: $text-dark;
+    
+    .card-title {
+      color: $text-dark;
+      font-weight: 600;
+    }
+    
+    .card-text {
+      color: $text-muted;
+      line-height: 1.6;
+    }
+  }
+}
+
+// Sidebar improvements
+.sidenav {
+  .nav-link {
+    font-size: $font-size-base; // 18px
+    padding: 0.875rem 1.25rem;
+    color: #4a5568;
+    
+    &:hover, &.active {
+      color: #2d3748;
+      background-color: rgba(99, 179, 237, 0.08);
+    }
+  }
+}
+
+// =========================================================
+// * Responsive Font Sizes
+// =========================================================
+
+// =========================================================
+// * Question Content Styles
+// =========================================================
+
+// Styles cho hình ảnh và nội dung trong question content và explanation
+.question-text,
+.alert-info,
+.card-body,
+.prose {
+  // Container overflow protection
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  
+  // Hình ảnh tự động resize
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 1rem auto;
+    display: block;
+    
+    // Responsive theo từng breakpoint - Thu nhỏ để tránh tràn
+    @media (min-width: 1400px) {
+      max-width: 800px;
+    }
+    
+    @media (min-width: 1200px) and (max-width: 1399px) {
+      max-width: 700px;
+    }
+    
+    @media (min-width: 992px) and (max-width: 1199px) {
+      max-width: 600px;
+    }
+    
+    @media (min-width: 768px) and (max-width: 991px) {
+      max-width: 500px;
+    }
+    
+    @media (max-width: 767px) {
+      max-width: 100%;
+      border-radius: 6px;
+    }
+    
+    @media (max-width: 576px) {
+      border-radius: 4px;
+      margin: 0.75rem 0;
+    }
+  }
+  
+  // Text trong explanation
+  p {
+    line-height: 1.7;
+    margin: 0.75rem 0;
+    
+    @media (max-width: 768px) {
+      line-height: 1.6;
+    }
+  }
+  
+  // Code blocks
+  pre {
+    max-width: 100%;
+    overflow-x: auto;
+    
+    @media (max-width: 768px) {
+      font-size: 0.875rem;
+    }
+  }
+  
+  // Diagrams và figures
+  figure {
+    max-width: 100%;
+    margin: 1.5rem 0;
+    overflow: hidden;
+    
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    @media (max-width: 768px) {
+      margin: 1rem 0;
+    }
+  }
+  
+  // Đảm bảo ảnh rộng không tràn ra ngoài container
+  img[width],
+  img[style*="width"] {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}
+
+// Styles riêng cho explanation section
+.alert-info {
+  img {
+    margin: 0.75rem 0;
+  }
+  
+  // Text trong explanation
+  p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    
+    @media (max-width: 768px) {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+// Mobile adjustments
+@media (max-width: 768px) {
+  html, body {
+    font-size: $font-size-base * 0.9; // Slightly smaller on mobile
+  }
+  
+  .quiz-content {
+    .question-text {
+      font-size: $font-size-lg; // Smaller questions on mobile
+      
+      img {
+        margin: 0.5rem auto;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+    }
+    
+    .choice-option {
+      font-size: $font-size-sm; // Smaller choices on mobile
+    }
+  }
+  
+  // Explanation responsive
+  .alert-info {
+    font-size: 0.9rem;
+    padding: 0.75rem 1rem;
+    
+    img {
+      max-width: 100% !important;
+      margin: 0.5rem auto;
+      width: 100% !important;
+    }
+  }
+  
+  // All content images on mobile
+  .question-text img,
+  .alert-info img,
+  .card-body img,
+  .prose img {
+    max-width: 100% !important;
+    width: auto !important;
+    height: auto !important;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+// =========================================================
+// * Accessibility Improvements
+// =========================================================
+
+// Focus states
+.btn:focus,
+.form-control:focus,
+.nav-link:focus {
+  box-shadow: 0 0 0 3px rgba(99, 179, 237, 0.25);
+  outline: none;
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  .quiz-content .choice-option {
+    border-width: 2px;
+  }
+  
+  .btn {
+    border-width: 2px;
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+// =========================================================
+// * Print Styles
+// =========================================================
+
+@media print {
+  .quiz-content {
+    .question-text {
+      font-size: 14pt;
+      color: black;
+    }
+    
+    .choice-option {
+      font-size: 12pt;
+      color: black;
+    }
+  }
+}

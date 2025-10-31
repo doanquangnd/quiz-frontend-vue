@@ -1,0 +1,221 @@
+// ==============================================
+// TOAST GLOBAL VARIABLES
+// ==============================================
+$toast-min-width: 420px !default;
+$toast-max-width: 520px !default;
+$toast-border-radius: 0.75rem !default;
+$toast-padding-x: 1rem !default;
+$toast-padding-y: 0.65rem !default;
+$toast-font-size: 0.95rem !default;
+$toast-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
+$toast-blur: 10px;
+$toast-bg-opacity: 0.95;
+
+// ==============================================
+// TOAST BASE
+// ==============================================
+.toast {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: $toast-min-width;
+  max-width: $toast-max-width;
+  margin-bottom: 1rem;
+  border-radius: $toast-border-radius;
+  background: rgba(255, 255, 255, $toast-bg-opacity);
+  backdrop-filter: blur($toast-blur);
+  box-shadow: $toast-shadow;
+  overflow: hidden;
+  font-size: $toast-font-size;
+  color: #212529;
+  animation: toast-slide-in 0.35s ease forwards;
+
+  &.showing {
+    opacity: 0;
+  }
+
+  &:not(.show) {
+    display: none;
+  }
+}
+
+// ==============================================
+// CONTAINER
+// ==============================================
+.toast-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1080;
+  pointer-events: none;
+
+  > .toast {
+    pointer-events: auto;
+  }
+
+  > :not(:last-child) {
+    margin-bottom: 0.75rem;
+  }
+
+  @media (max-width: 576px) {
+    left: 1rem;
+    right: 1rem;
+    top: 0.5rem;
+
+    .toast {
+      width: 100%;
+      max-width: none;
+      min-width: auto;
+    }
+  }
+}
+
+// ==============================================
+// HEADER & BODY
+// ==============================================
+.toast-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.9rem; // 👈 nhỏ gọn hơn
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.75);
+  color: #111;
+
+  .btn-close {
+    margin-left: 0.75rem;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.toast-body {
+  padding: 1rem;
+  line-height: 1.5;
+  color: #212529;
+  background: rgba(255, 255, 255, 0.95);
+  word-wrap: break-word;
+}
+
+// ==============================================
+// PROGRESS BAR
+// ==============================================
+.toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  animation: toast-progress 5s linear forwards;
+}
+
+@keyframes toast-progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+// ==============================================
+// ANIMATION
+// ==============================================
+@keyframes toast-slide-in {
+  from {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toast-slide-out {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+}
+
+.toast.hide {
+  animation: toast-slide-out 0.35s ease forwards;
+}
+
+// ==============================================
+// THEME VARIANTS (màu sắc rõ ràng hơn)
+// ==============================================
+.toast-success {
+  border-left: 5px solid #2ecc71;
+
+  .toast-header {
+    background-color: rgba(46, 204, 113, 0.15);
+    color: #145a32;
+  }
+
+  .toast-progress {
+    background: linear-gradient(90deg, #27ae60, #58d68d);
+  }
+}
+
+.toast-error {
+  border-left: 5px solid #e74c3c;
+
+  .toast-header {
+    background-color: rgba(231, 76, 60, 0.15);
+    color: #7b241c;
+  }
+
+  .toast-progress {
+    background: linear-gradient(90deg, #e74c3c, #ff7675);
+  }
+}
+
+.toast-warning {
+  border-left: 5px solid #f1c40f;
+
+  .toast-header {
+    background-color: rgba(241, 196, 15, 0.2);
+    color: #7d6608;
+  }
+
+  .toast-progress {
+    background: linear-gradient(90deg, #f39c12, #f7dc6f);
+  }
+}
+
+.toast-info {
+  border-left: 5px solid #3498db;
+
+  .toast-header {
+    background-color: rgba(52, 152, 219, 0.15);
+    color: #154360;
+  }
+
+  .toast-progress {
+    background: linear-gradient(90deg, #2980b9, #5dade2);
+  }
+}
+
+.toast-confirm {
+  border-left: 5px solid #9b59b6;
+
+  .toast-header {
+    background-color: rgba(155, 89, 182, 0.15);
+    color: #4a235a;
+  }
+
+  .toast-progress {
+    background: linear-gradient(90deg, #8e44ad, #bb8fce);
+  }
+}
