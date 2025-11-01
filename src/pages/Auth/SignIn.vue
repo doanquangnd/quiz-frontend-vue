@@ -176,9 +176,11 @@ const processing = ref(false)
 const errors = ref({})
 const showPassword = ref(false)
 const turnstile_widget = ref(null)
-const turnstile_enabled = ref(false) // Tắt Turnstile cho development
-const turnstile_site_key = ref('')
-const turnstile_theme = ref('auto')
+
+// Turnstile config from environment variables
+const turnstile_enabled = ref(import.meta.env.VITE_TURNSTILE_ENABLED === 'true')
+const turnstile_site_key = ref(import.meta.env.VITE_TURNSTILE_SITE_KEY || '')
+const turnstile_theme = ref(import.meta.env.VITE_TURNSTILE_THEME || 'auto')
 
 const form = ref({
   email: '',
@@ -248,23 +250,11 @@ const login = async () => {
 }
 
 // Lifecycle
-onMounted(async () => {
+onMounted(() => {
   app_store.toggleEveryDisplay()
   app_store.toggleHideConfig()
   document.body.classList.remove('bg-gray-100')
   initializeDarkMode()
-  // Fetch Turnstile config from backend
-  try {
-    const response = await http.get('/api/auth/config')
-    if (response.data.success && response.data.data?.turnstile) {
-      const config = response.data.data.turnstile
-      turnstile_enabled.value = config.enabled || false
-      turnstile_site_key.value = config.site_key || ''
-      turnstile_theme.value = config.theme || 'auto'
-    }
-  } catch (error) {
-    // Ignore error, Turnstile will be disabled
-  }
 })
 
 onBeforeUnmount(() => {

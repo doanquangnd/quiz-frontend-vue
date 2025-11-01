@@ -2,7 +2,7 @@
     <li class="nav-item dropdown pe-2 d-flex align-items-center">
         <a
             href="javascript:;"
-            class="avatar avatar-sm border rounded-circle d-flex align-items-center justify-content-center cursor-pointer"
+            class="avatar-sm border rounded-circle d-flex align-items-center justify-content-center cursor-pointer"
             id="languageDropdown"
             @click="toggleMenu"
         >

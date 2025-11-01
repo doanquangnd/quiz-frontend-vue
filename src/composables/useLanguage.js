@@ -6,13 +6,22 @@
 
 import { ref, computed, watch } from 'vue'
 import { currentLocale } from '@/plugins/i18n.js'
+import { http } from '@/api/http-client.js'
 
 // Current language state
 const current_language = ref(get_initial_language())
 
-// Sync current_language with i18n locale
+// Sync current_language with i18n locale AND HTML lang attribute
 watch(current_language, (new_lang) => {
+  // 1. Update i18n locale
   currentLocale.value = new_lang
+  
+  // 2. Update HTML lang attribute
+  const lang_map = { 'vi': 'vi', 'en': 'en', 'ja': 'ja' }
+  document.documentElement.lang = lang_map[new_lang] || 'en'
+  
+  // 3. Update localStorage locale for i18n plugin
+  localStorage.setItem('locale', new_lang)
 }, { immediate: true })
 
 /**
@@ -39,22 +48,18 @@ const COUNTRY_TO_LANGUAGE = {
  */
 async function get_language_from_geolocation() {
   try {
-    // Try to get country from backend API (which has Cloudflare headers)
-    const response = await fetch('/api/geolocation', {
-      method: 'GET',
-      credentials: 'include',
-    })
+    // Use http client để gọi đúng backend URL (không phải frontend URL)
+    const response = await http.get('/api/geolocation')
     
-    if (response.ok) {
-      const data = await response.json()
-      const country_code = data.country_code
+    if (response.data?.success) {
+      const country_code = response.data.data?.country_code
       
       if (country_code && COUNTRY_TO_LANGUAGE[country_code]) {
         return COUNTRY_TO_LANGUAGE[country_code]
       }
     }
   } catch (error) {
-    console.log('Geolocation detection failed, using fallback')
+    // Silent fail - fallback to browser language
   }
   
   return null
@@ -70,17 +75,21 @@ function get_initial_language() {
     return stored
   }
   
-  // Priority 2: Geolocation (will be detected async later)
-  // Priority 3: Browser language
+  // Priority 2: Geolocation (will be detected async later in App.vue)
+  
+  // Priority 3: Browser language (used immediately while waiting for geolocation)
   const browser_lang = navigator.language || navigator.userLanguage
+  
   if (browser_lang) {
-    if (browser_lang.startsWith('vi')) return 'vi'
-    if (browser_lang.startsWith('ja')) return 'ja'
-    if (browser_lang.startsWith('en')) return 'en'
+    const lang_code = browser_lang.toLowerCase().split('-')[0]
+    
+    if (lang_code === 'vi') return 'vi'
+    if (lang_code === 'ja') return 'ja'
+    if (lang_code === 'en') return 'en'
   }
   
-  // Priority 4: Default to Vietnamese
-  return 'vi'
+  // Priority 4: Default to English (international default)
+  return 'en'
 }
 
 /**
@@ -88,17 +97,19 @@ function get_initial_language() {
  */
 async function detect_and_set_initial_language() {
   // If user already has preference, respect it
-  if (localStorage.getItem('language')) {
-    return
+  const saved_lang = localStorage.getItem('language')
+  if (saved_lang && ['vi', 'en', 'ja'].includes(saved_lang)) {
+    return // Already set in get_initial_language()
   }
   
   // Try geolocation detection
   const geo_lang = await get_language_from_geolocation()
   
   if (geo_lang && ['vi', 'en', 'ja'].includes(geo_lang)) {
-    // Use set_language to properly update everything (current_language + i18n + HTML)
-    set_language(geo_lang, false) // false = don't save to localStorage yet
+    // Geolocation detected - use it (may override browser language)
+    set_language(geo_lang, false) // Don't save yet - let user confirm
   }
+  // Else: Keep browser language (already set in get_initial_language)
 }
 
 /**
@@ -106,8 +117,7 @@ async function detect_and_set_initial_language() {
  */
 function set_language(lang, save_preference = true) {
   if (!['vi', 'en', 'ja'].includes(lang)) {
-    console.warn(`Invalid language: ${lang}. Using 'vi' instead.`)
-    lang = 'vi'
+    lang = 'en'
   }
   
   current_language.value = lang
@@ -123,14 +133,14 @@ function set_language(lang, save_preference = true) {
     'en': 'en',
     'ja': 'ja',
   }
-  document.documentElement.lang = html_lang_map[lang] || 'vi'
+  document.documentElement.lang = html_lang_map[lang] || 'en'
 }
 
 /**
  * Toggle language
  */
 function toggle_language() {
-  const new_lang = current_language.value === 'vi' ? 'en' : 'vi'
+  const new_lang = current_language.value === 'en' ? 'vi' : 'en'
   set_language(new_lang)
 }
 
@@ -148,7 +158,7 @@ export function useLanguage() {
       'en': 'en_US',
       'ja': 'ja_JP',
     }
-    return locale_map[current_language.value] || 'vi_VN'
+    return locale_map[current_language.value] || 'en_US'
   })
   
   // Watch language changes
@@ -181,8 +191,9 @@ export function get_language_name(lang) {
   const names = {
     vi: 'Tiếng Việt',
     en: 'English',
+    ja: '日本語',
   }
-  return names[lang] || names.vi
+  return names[lang] || names.en
 }
 
 /**
@@ -199,6 +210,6 @@ export const AVAILABLE_LANGUAGES = [
  */
 export function get_language_display_name(lang_code) {
   const lang = AVAILABLE_LANGUAGES.find(l => l.code === lang_code)
-  return lang ? lang.name : 'Tiếng Việt'
+  return lang ? lang.name : 'English'
 }
 
