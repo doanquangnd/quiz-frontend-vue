@@ -10,7 +10,20 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import Toast from '@/components/Toast.vue'
+import { useLanguage } from '@/composables/useLanguage.js'
+
+// Initialize language detection globally
+const { current_language, detect_and_set_initial_language } = useLanguage()
+
+onMounted(async () => {
+  // Run detection on app mount (only on first visit)
+  if (!localStorage.getItem('language_initialized')) {
+    await detect_and_set_initial_language()
+    localStorage.setItem('language_initialized', 'true')
+  }
+})
 </script>
 
 <style>

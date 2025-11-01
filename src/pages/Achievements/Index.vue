@@ -168,12 +168,20 @@ import AchievementCard from "@/components/Gamification/AchievementCard.vue";
 import AchievementModal from "@/components/Gamification/AchievementModal.vue";
 import { useSeo, SEO_CONFIGS } from '@/composables/useSeo.js'
 import { SEO_CONFIGS_EN } from '@/composables/useSeo.en.js'
+import { SEO_CONFIGS_JA } from '@/composables/useSeo.ja.js'
 import { useTranslation } from '@/composables/useTranslation'
 
 // SEO Setup
 const { locale } = useTranslation()
 const init_seo = () => {
-  const configs = locale.value === 'en' ? SEO_CONFIGS_EN : SEO_CONFIGS
+  let configs
+  if (locale.value === 'en') {
+    configs = SEO_CONFIGS_EN
+  } else if (locale.value === 'ja') {
+    configs = SEO_CONFIGS_JA
+  } else {
+    configs = SEO_CONFIGS
+  }
   useSeo({
     ...configs.achievements,
     robots: 'noindex, nofollow',

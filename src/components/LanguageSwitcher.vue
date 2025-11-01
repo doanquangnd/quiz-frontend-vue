@@ -39,6 +39,7 @@ import { useRoute } from 'vue-router'
 import { useTranslation } from '@/composables/useTranslation'
 import { useSeo, SEO_CONFIGS } from '@/composables/useSeo.js'
 import { SEO_CONFIGS_EN } from '@/composables/useSeo.en.js'
+import { SEO_CONFIGS_JA } from '@/composables/useSeo.ja.js'
 
 // Composables
 const route = useRoute()
@@ -57,7 +58,15 @@ const languages = {
 
 // Route to SEO config mapping
 const get_seo_config_for_route = (lang, route_name) => {
-    const configs = lang === 'en' ? SEO_CONFIGS_EN : SEO_CONFIGS
+    // Select configs based on language
+    let configs
+    if (lang === 'en') {
+        configs = SEO_CONFIGS_EN
+    } else if (lang === 'ja') {
+        configs = SEO_CONFIGS_JA
+    } else {
+        configs = SEO_CONFIGS // Vietnamese (default)
+    }
     
     // Map route names to SEO configs
     const route_map = {
