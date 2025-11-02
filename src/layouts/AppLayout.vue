@@ -4,6 +4,7 @@
         <aside
             class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-white"
             id="sidenav-main"
+            :class="{ 'd-none': isQuizPage }"
         >
             <div class="sidenav-header">
                 <i
@@ -131,6 +132,7 @@
             <nav
                 class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
                 id="navbarBlur"
+                :class="{ 'd-none': isQuizPage || isPracticePage }"
             >
                 <div class="container-fluid py-1 px-3">
                     <nav aria-label="breadcrumb">
@@ -448,6 +450,13 @@ const isActive = (routeName) => {
     return route.path.includes(routeName);
 };
 
+// Check if current page is quiz page (hide navbar and sidenav)
+const isQuizPage = computed(() => {
+    return route.name === 'exams.quiz';
+});
+const isPracticePage = computed(() => {
+    return route.name === 'documents.category.practice';
+});
 // Theme icon based on current preference
 const themeIcon = computed(() => {
     if (darkModePreference.value === 'dark') {

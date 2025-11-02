@@ -48,8 +48,8 @@ http.interceptors.response.use(
 
     // Xử lý 401 Unauthorized - Token hết hạn
     if (error?.response?.status === 401 && !original_request._retry) {
-      // KHÔNG refresh token cho auth endpoints (login, register, refresh)
-      const auth_endpoints = ['/api/auth/login', '/api/auth/register', '/api/auth/refresh']
+      // KHÔNG refresh token cho auth endpoints (login, register, refresh, logout)
+      const auth_endpoints = ['/api/auth/login', '/api/auth/register', '/api/auth/refresh', '/api/auth/logout']
       const is_auth_endpoint = auth_endpoints.some(endpoint => original_request.url?.includes(endpoint))
       
       if (is_auth_endpoint) {

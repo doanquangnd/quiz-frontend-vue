@@ -754,12 +754,7 @@ onMounted(() => {
 })
 </script>
 
-<style>
-#navbarBlur,
-#sidenav-main {
-    display: none !important;
-}
-
+<style scoped>
 .quiz-header-fixed {
     position: sticky;
     top: 0;
@@ -776,9 +771,6 @@ onMounted(() => {
     background-color: var(--dm-bg-card) !important;
     border-bottom-color: var(--dm-border-color) !important;
 }
-</style>
-
-<style scoped>
 .cursor-pointer {
     cursor: pointer;
 }

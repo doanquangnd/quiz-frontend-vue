@@ -13,7 +13,7 @@
                             <Logo class="h-10 sm:h-8 md:h-10" />
                         </div>
                     </a>
-                    <ul class="navbar-nav d-lg-block d-none">
+                    <ul class="navbar-nav">
                         <li class="nav-item text-white">
                             <LanguageSwitcher />
                         </li>

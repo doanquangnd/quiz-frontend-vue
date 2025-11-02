@@ -37,33 +37,37 @@
       <div
         v-for="(category, index) in document.categories"
         :key="category.id"
-        class="col-12"
+        class="col-12 category-item"
       >
         <div class="card border-0 shadow-soft h-100">
           <div class="card-body p-4">
-            <div class="row align-items-center">
-              <div class="col-auto">
+            <div class="d-flex flex-lg-row align-items-start align-items-lg-center gap-3">
+              <!-- Chapter Number -->
+              <div class="flex-shrink-0">
                 <div 
                   class="rounded-3 d-flex align-items-center justify-content-center" 
                   :class="{
                     'bg-success': category.progress?.status === 'completed',
-                    'bg-light': !category.progress || category.progress?.status !== 'completed'
+                    'bg-warning': category.progress?.status === 'in_progress',
+                    'bg-light': !category.progress || category.progress?.status !== 'completed' && category.progress?.status !== 'in_progress'
                   }"
                   style="width: 48px; height: 48px;"
                 >
                   <span 
                     class="fw-bold"
                     :class="{
-                      'text-white': category.progress?.status === 'completed',
-                      'text-primary': !category.progress || category.progress?.status !== 'completed'
+                      'text-white': category.progress?.status === 'completed' || category.progress?.status === 'in_progress',
+                      'text-primary': !category.progress || category.progress?.status !== 'completed' && category.progress?.status !== 'in_progress'
                     }"
                   >{{ index + 1 }}</span>
                 </div>
               </div>
-              <div class="col">
-                <div class="d-flex align-items-center gap-2">
-                  <h5 class="fw-bold text-dark mb-1">{{ category.title }}</h5>
-                  <!-- Badge hiển thị trạng thái hoàn thành -->
+              
+              <!-- Content Section -->
+              <div class="flex-grow-1 min-width-0 w-100">
+                <!-- Title and Badge -->
+                <div class="d-flex align-items-center flex-wrap gap-2 mb-1">
+                  <h5 class="fw-bold text-dark mb-0">{{ category.title }}</h5>
                   <span v-if="category.progress?.status === 'completed'" class="badge bg-success">
                     {{ $t('completed') }}
                   </span>
@@ -71,67 +75,72 @@
                     {{ $t('in_progress') }}
                   </span>
                 </div>
-                <p v-if="category.description" class="text-muted small mb-0 text-truncate">
+                
+                <!-- Description -->
+                <p v-if="category.description" class="text-muted small mb-2">
                   {{ category.description }}
                 </p>
-                <!-- Hiển thị tiến độ nếu có -->
-                <div v-if="category.progress" class="mt-2">
-                  <div class="d-flex align-items-center gap-2">
-                    <div class="progress flex-grow-1" style="height: 8px;">
-                      <div
-                        class="progress-bar"
-                        :class="{
-                          'bg-success': category.progress.status === 'completed',
-                          'bg-primary': category.progress.status === 'in_progress'
-                        }"
-                        role="progressbar"
-                        :style="{ width: (category.progress.answered_count / category.questions_count * 100) + '%' }"
-                        :aria-valuenow="category.progress.answered_count"
-                        :aria-valuemin="0"
-                        :aria-valuemax="category.questions_count"
-                      ></div>
+                
+                <!-- Progress Bar, Score, và Button trong cùng một hàng -->
+                <div class="mt-2">
+                  <div class="d-flex flex-column flex-md-row align-items-md-center gap-2">
+                    <!-- Progress Bar Section -->
+                    <div class="flex-grow-1 d-flex align-items-center gap-2">
+                      <div v-if="category.progress" class="progress flex-grow-1" style="height: 8px;">
+                        <div
+                          class="progress-bar"
+                          :class="{
+                            'bg-success': category.progress.status === 'completed',
+                            'bg-primary': category.progress.status === 'in_progress'
+                          }"
+                          role="progressbar"
+                          :style="{ width: (category.progress.answered_count / category.questions_count * 100) + '%' }"
+                          :aria-valuenow="category.progress.answered_count"
+                          :aria-valuemin="0"
+                          :aria-valuemax="category.questions_count"
+                        ></div>
+                      </div>
+                      <span v-if="category.progress" class="text-muted small fw-medium text-nowrap" style="min-width: 60px;">
+                        {{ category.progress.answered_count }}/{{ category.questions_count }}
+                      </span>
                     </div>
-                    <span class="text-muted small fw-medium" style="min-width: 60px;">
-                      {{ category.progress.answered_count }}/{{ category.questions_count }}
-                    </span>
+                    
+                    <!-- Score Badge -->
+                    <div v-if="category.progress?.status === 'completed'" class="flex-shrink-0">
+                      <span class="badge bg-light text-dark small text-nowrap">
+                        <i class="ni ni-check-bold text-success me-1"></i>
+                        {{ $t('score') }}: {{ category.progress.correct_count }}/{{ category.progress.answered_count }}
+                      </span>
+                    </div>
+                    
+                    <!-- No Progress - Show Question Count -->
+                    <div v-if="!category.progress" class="flex-shrink-0">
+                      <span class="badge bg-light text-dark">
+                        <i class="ni ni-book-bookmark me-1"></i>
+                        {{ category.questions_count }} {{ $t('questions') }}
+                      </span>
+                    </div>
+                    
+                    <!-- Action Button -->
+                    <div class="flex-shrink-0">
+                      <button
+                        v-if="category.progress?.status === 'completed'"
+                        @click="showRestartModal(category)"
+                        class="btn btn-sm btn-outline-success text-nowrap"
+                      >
+                        <i class="ni ni-refresh-69 me-1"></i>
+                        {{ $t('restart') }}
+                      </button>
+                      <router-link
+                        v-else
+                        :to="`/documents/category/${category.id}/practice`"
+                        class="btn btn-sm btn-primary text-nowrap"
+                      >
+                        <i class="ni ni-bold-right me-1"></i>
+                        {{ category.progress?.status === 'in_progress' ? $t('continue') : $t('start') }}
+                      </router-link>
+                    </div>
                   </div>
-                  <!-- Hiển thị điểm nếu đã hoàn thành -->
-                  <div v-if="category.progress.status === 'completed'" class="mt-1">
-                    <span class="badge bg-light text-dark small">
-                      <i class="ni ni-check-bold text-success me-1"></i>
-                      {{ $t('score') }}: {{ category.progress.correct_count }}/{{ category.progress.answered_count }}
-                    </span>
-                  </div>
-                </div>
-                <!-- Hiển thị tổng số câu nếu chưa có tiến độ -->
-                <div v-else class="mt-2">
-                  <span class="badge bg-light text-dark">
-                    <i class="ni ni-book-bookmark me-1"></i>
-                    {{ category.questions_count }} {{ $t('questions') }}
-                  </span>
-                </div>
-              </div>
-              <div class="col-auto">
-                <!-- Nút hành động tùy trạng thái -->
-                <div v-if="category.progress?.status === 'completed'">
-                  <!-- Nút Làm lại cho chương đã hoàn thành -->
-                  <button
-                    @click="showRestartModal(category)"
-                    class="btn btn-sm btn-outline-success"
-                  >
-                    <i class="ni ni-refresh-69 me-1"></i>
-                    {{ $t('restart') }}
-                  </button>
-                </div>
-                <div v-else>
-                  <!-- Nút Tiếp tục hoặc Bắt đầu -->
-                  <router-link
-                    :to="`/documents/category/${category.id}/practice`"
-                    class="btn btn-sm btn-primary"
-                  >
-                    <i class="ni ni-bold-right me-1"></i>
-                    {{ category.progress?.status === 'in_progress' ? $t('continue') : $t('start') }}
-                  </router-link>
                 </div>
               </div>
             </div>
@@ -169,10 +178,10 @@
               <strong>{{ $t('warning') }}:</strong> {{ $t('restart_warning_message') }}
             </div>
             
-            <p class="mb-2">
+            <p class="mb-2 text-dark">
               <strong>{{ $t('chapter') }}:</strong> {{ selectedCategory?.title }}
             </p>
-            <p class="mb-2">
+            <p class="mb-2 text-dark">
               <strong>{{ $t('previous_score') }}:</strong> 
               {{ selectedCategory?.progress?.correct_count }}/{{ selectedCategory?.progress?.answered_count }}
               ({{ Math.round((selectedCategory?.progress?.correct_count / selectedCategory?.progress?.answered_count) * 100) }}%)
@@ -293,5 +302,65 @@ function confirmRestart() {
 
 .modal.show {
   display: block;
+}
+
+.category-item .card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Đảm bảo progress bar luôn có chiều rộng đồng nhất */
+.progress {
+  width: 100%;
+  min-width: 100px; /* Đảm bảo có chiều rộng tối thiểu */
+}
+
+/* Ngăn chặn text overflow */
+.min-width-0 {
+  min-width: 0;
+}
+
+/* Đảm bảo button và badge không bị shrink */
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+
+/* Đảm bảo các badge và text không bị wrap */
+.text-nowrap {
+  white-space: nowrap;
+}
+
+/* Căn chỉnh progress bar container */
+.flex-grow-1 {
+  flex-grow: 1;
+  min-width: 0; /* Quan trọng cho flexbox */
+}
+
+/* Responsive cho tablet và mobile */
+@media (max-width: 767.98px) {
+  .category-item .card-body {
+    padding: 1rem !important;
+  }
+  
+  /* Trên mobile, button full width */
+  .category-item .flex-shrink-0 .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  /* Progress bar section chiếm full width trên mobile */
+  .category-item .flex-grow-1.d-flex {
+    width: 100%;
+  }
+}
+
+/* Đảm bảo layout đồng nhất trên tất cả các item */
+.category-item .d-flex.flex-column.flex-md-row {
+  min-height: 40px; /* Chiều cao tối thiểu để đồng nhất */
+}
+
+/* Căn chỉnh các phần tử trong hàng progress */
+.category-item .d-flex.align-items-center {
+  align-items: center !important;
 }
 </style>

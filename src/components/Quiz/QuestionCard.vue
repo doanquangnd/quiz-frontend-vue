@@ -23,7 +23,7 @@
                                 :key="index"
                                 @click="goToQuestion(index)"
                                 class="btn btn-sm position-relative"
-                                style="width: 45px; height: 45px;"
+                                style="width: 45px; height: 45px; white-space: nowrap;"
                                 :class="{
                                     'btn-primary': index === currentQuestionIndex,
                                     'btn-success': answeredQuestions.includes(index) && index !== currentQuestionIndex,

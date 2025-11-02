@@ -1,5 +1,5 @@
 <template>
-    <div class="practice-header-fixed">
+    <div class="practice-header-fixed rounded-3">
         <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
             <!-- Left: Breadcrumb & Title -->
             <div class="mb-3 mb-md-0">
@@ -16,7 +16,7 @@
                 </div>
                 
                 <!-- Title -->
-                <h1 class="h4 fw-bold text-dark mb-2">{{ $t('learn_by_chapter') }}</h1>
+                <h4 class="h4 fw-bold text-dark mb-2">{{ $t('learn_by_chapter') }}</h4>
                 
                 <!-- Question Counter -->
                 <p class="mb-0">

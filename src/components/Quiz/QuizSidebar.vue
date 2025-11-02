@@ -116,6 +116,7 @@ const canSubmit = computed(() => {
 .question-btn {
     width: 45px;
     height: 45px;
+    white-space: nowrap;
     flex-shrink: 0;
     transition: all 0.2s ease;
 }

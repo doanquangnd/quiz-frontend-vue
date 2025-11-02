@@ -20,7 +20,7 @@
             <!-- Practice Content -->
             <div v-else-if="category && questions.length > 0">
             <!-- Practice Header -->
-            <div class="practice-header-fixed mb-4">
+            <div class="practice-header-fixed rounded-3">
                 <div class="d-flex align-items-center justify-content-between flex-wrap">
                     <div class="mb-3 mb-md-0">
                         <div class="text-muted small mb-1">
@@ -30,56 +30,56 @@
                             <span class="mx-2">›</span>
                             <span>{{ category.title }}</span>
                         </div>
-                        <h1 class="h4 fw-bold text-dark mb-2">
-                            {{ $t('learn_by_chapter') }}
-                        </h1>
                         <div class="d-flex align-items-center gap-3">
-                            <p class="mb-0">
-                                {{ $t('question') }} {{ currentQuestionIndex + 1 }} / {{ questions.length }}
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Stats -->
-                    <div class="d-flex align-items-center gap-4 flex-wrap">
-                        <!-- Progress Bar -->
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="text-muted small">
-                                {{ $t('progress') }}:
-                                <span class="fw-semibold text-dark">{{
-                                    Math.round(
-                                        (answeredCount / questions.length) * 100
-                                    )
-                                }}%</span>
+                            <h5 class="fw-bold text-dark mb-2">
+                                {{ $t('learn_by_chapter') }}
+                            </h5>
+                            <div class="d-flex align-items-center justify-content-between gap-3">
+                                <p class="mb-0">
+                                    {{ $t('question') }} {{ currentQuestionIndex + 1 }} / {{ questions.length }}
+                                </p>
+                                <!-- Progress Bar -->
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="text-muted small">
+                                            {{ $t('progress') }}:
+                                            <span class="fw-semibold text-dark">{{
+                                                Math.round(
+                                                    (answeredCount / questions.length) * 100
+                                                )
+                                            }}%</span>
+                                        </div>
+                                        <div class="progress" style="width: 200px; height: 12px;">
+                                            <div
+                                                class="progress-bar bg-gradient-primary"
+                                                role="progressbar"
+                                                :style="{
+                                                    width:
+                                                        (answeredCount / questions.length) *
+                                                            100 +
+                                                        '%',
+                                                }"
+                                                :aria-valuenow="(answeredCount / questions.length) * 100"
+                                                aria-valuemin="0"
+                                                aria-valuemax="100"
+                                            ></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div v-if="answeredCount > 0" class="text-center">
+                                        <div class="h5 fw-bold text-success mb-0">
+                                            {{ correctCount }}
+                                        </div>
+                                        <div class="text-muted small">{{ $t('correct') }}</div>
+                                    </div>
+                                    <div v-if="answeredCount > 0" class="text-center">
+                                        <div class="h5 fw-bold text-danger mb-0">
+                                            {{ answeredCount - correctCount }}
+                                        </div>
+                                        <div class="text-muted small">{{ $t('incorrect') }}</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="progress" style="width: 200px; height: 12px;">
-                                <div
-                                    class="progress-bar bg-gradient-primary"
-                                    role="progressbar"
-                                    :style="{
-                                        width:
-                                            (answeredCount / questions.length) *
-                                                100 +
-                                            '%',
-                                    }"
-                                    :aria-valuenow="(answeredCount / questions.length) * 100"
-                                    aria-valuemin="0"
-                                    aria-valuemax="100"
-                                ></div>
-                            </div>
-                        </div>
-                        
-                        <div v-if="answeredCount > 0" class="text-center">
-                            <div class="h5 fw-bold text-success mb-0">
-                                {{ correctCount }}
-                            </div>
-                            <div class="text-muted small">{{ $t('correct') }}</div>
-                        </div>
-                        <div v-if="answeredCount > 0" class="text-center">
-                            <div class="h5 fw-bold text-danger mb-0">
-                                {{ answeredCount - correctCount }}
-                            </div>
-                            <div class="text-muted small">{{ $t('incorrect') }}</div>
                         </div>
                     </div>
                 </div>
@@ -1020,11 +1020,8 @@ watch(
 );
 </script>
 
-<style>
-#navbarBlur {
-    display: none !important;
-}
 
+<style scoped>
 .practice-header-fixed {
     position: sticky;
     top: 0;
@@ -1034,9 +1031,6 @@ watch(
     border-bottom: 1px solid #e9ecef;
     margin-bottom: 1rem !important;
 }
-</style>
-
-<style scoped>
 .cursor-pointer {
     cursor: pointer;
 }
